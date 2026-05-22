@@ -464,14 +464,6 @@
     <div class="crew" id="crew"></div>
   </div>
 
-  <div class="legend">
-    <h3>The Crew</h3>
-    <p>Tap a day to expand the past. Today's plan sits up top; remaining days follow in order.</p>
-    <div class="legend-codes">
-      Group codes you'll see in the schedule: <code>MW</code> Michelle + Will · <code>CR</code> Cat + Ryan · <code>MARCS</code> Michelle, Anisha, Ryan, Cat, Shriya · <code>MCAS</code> Michelle, Cat, Anisha, Shriya · <code>WR</code> Will + Ryan · <code>MWS</code> Michelle, Will, Shriya · <code>SA</code> Shriya + Anisha · <code>MC</code> Michelle + Cat · <code>CWARMS</code> everyone
-    </div>
-  </div>
-
   <div id="today-section"></div>
   <div id="upcoming-section"></div>
   <div id="past-section"></div>
@@ -1009,65 +1001,120 @@ function weatherLabel(code) {
   return '—';
 }
 
+function renderWxCell(el, w, locationLabel) {
+  const sourceTag = w.source === 'forecast'
+    ? `<span style="background:rgba(31,90,58,0.14); color:var(--emerald-deep); font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:4px; letter-spacing:0.6px; margin-left:5px;">FORECAST</span>`
+    : `<span style="background:rgba(201,162,39,0.22); color:#7a6014; font-size:9.5px; font-weight:700; padding:1px 6px; border-radius:4px; letter-spacing:0.6px; margin-left:5px;" title="Forecast horizon hasn't reached this date — showing the same date last year">LAST YR</span>`;
+  const popStr = (w.pop != null) ? ' · ' + w.pop + '% precip' : '';
+  el.outerHTML = `
+    <div class="wx-row">
+      <span class="wx-icon">${weatherIcon(w.code)}</span>
+      <span class="wx-temp">${w.hi}° / ${w.lo}°</span>
+      ${sourceTag}
+    </div>
+    <div class="wx-sub">${weatherLabel(w.code)}${popStr} · ${locationLabel}</div>
+  `;
+}
+
+async function fetchOpenMeteo(url) {
+  try {
+    const r = await fetch(url);
+    if (!r.ok) return null;
+    return await r.json();
+  } catch (e) { return null; }
+}
+
+function indexDaily(json) {
+  const out = {};
+  if (!json) return out;
+  const daily = json.daily || {};
+  const times = daily.time || [];
+  for (let i = 0; i < times.length; i++) {
+    const code = daily.weathercode ? daily.weathercode[i] : null;
+    const hi   = daily.temperature_2m_max ? daily.temperature_2m_max[i] : null;
+    const lo   = daily.temperature_2m_min ? daily.temperature_2m_min[i] : null;
+    if (code == null || hi == null || lo == null) continue;
+    out[times[i]] = {
+      hi: Math.round(hi),
+      lo: Math.round(lo),
+      code,
+      pop: daily.precipitation_probability_max ? daily.precipitation_probability_max[i] : null
+    };
+  }
+  return out;
+}
+
+async function fetchWeatherForKey(key) {
+  const c = COORDS[key];
+  if (!c) return {};
+
+  const tripStart = '2026-05-22';
+  const tripEnd   = '2026-06-01';
+
+  const fcUrl =
+    `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}` +
+    `&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_probability_max` +
+    `&temperature_unit=fahrenheit&start_date=${tripStart}&end_date=${tripEnd}` +
+    `&timezone=${encodeURIComponent(c.tz)}`;
+
+  const fcMap = indexDaily(await fetchOpenMeteo(fcUrl));
+  const out = {};
+  for (const d of Object.keys(fcMap)) out[d] = { ...fcMap[d], source: 'forecast' };
+
+  // Figure out which trip dates are still missing.
+  const missing = [];
+  for (let i = 0; i < 11; i++) {
+    const dt = new Date(Date.UTC(2026, 4, 22 + i));
+    const iso = dt.toISOString().slice(0, 10);
+    if (!out[iso]) missing.push(iso);
+  }
+
+  if (missing.length) {
+    // Fall back to the same calendar window last year from the archive API.
+    const archStart = '2025-05-22';
+    const archEnd   = '2025-06-01';
+    const archUrl =
+      `https://archive-api.open-meteo.com/v1/archive?latitude=${c.lat}&longitude=${c.lon}` +
+      `&daily=temperature_2m_max,temperature_2m_min,weathercode` +
+      `&temperature_unit=fahrenheit&start_date=${archStart}&end_date=${archEnd}` +
+      `&timezone=${encodeURIComponent(c.tz)}`;
+    const archMap = indexDaily(await fetchOpenMeteo(archUrl));
+    for (const iso of missing) {
+      const archIso = iso.replace('2026-', '2025-');
+      if (archMap[archIso]) out[iso] = { ...archMap[archIso], source: 'archive' };
+    }
+  }
+
+  return out;
+}
+
 async function fetchWeather() {
-  // Cluster dates by location to reduce calls.
   const buckets = {};
   document.querySelectorAll('.wx-loading[data-wxkey]').forEach(el => {
     const k = el.dataset.wxkey;
     const d = el.dataset.date;
-    if (!k) { el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">Travel day — no on-trip forecast</div>'; return; }
+    if (!k) {
+      el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">Travel day — no on-trip forecast</div>';
+      return;
+    }
     buckets[k] = buckets[k] || [];
     buckets[k].push({ el, date: d });
   });
 
-  const startDate = '2026-05-22';
-  const endDate   = '2026-06-01';
+  const keys = Object.keys(buckets);
+  const results = await Promise.all(keys.map(fetchWeatherForKey));
 
-  for (const [key, items] of Object.entries(buckets)) {
-    const c = COORDS[key];
-    if (!c) {
-      items.forEach(i => i.el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">No coordinates</div>');
-      continue;
-    }
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}` +
-      `&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_probability_max` +
-      `&temperature_unit=fahrenheit&forecast_days=16&start_date=${startDate}&end_date=${endDate}` +
-      `&timezone=${encodeURIComponent(c.tz)}`;
-    try {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('http '+res.status);
-      const j = await res.json();
-      const daily = j.daily || {};
-      const map = {};
-      (daily.time || []).forEach((t, i) => {
-        map[t] = {
-          hi: Math.round(daily.temperature_2m_max[i]),
-          lo: Math.round(daily.temperature_2m_min[i]),
-          code: daily.weathercode[i],
-          pop: daily.precipitation_probability_max ? daily.precipitation_probability_max[i] : null
-        };
-      });
-      items.forEach(i => {
-        const w = map[i.date];
-        if (!w) {
-          i.el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">Outside forecast window</div>';
-          return;
-        }
-        const html = `
-          <div class="wx-row">
-            <span class="wx-icon">${weatherIcon(w.code)}</span>
-            <span class="wx-temp">${w.hi}° / ${w.lo}°</span>
-          </div>
-          <div class="wx-sub">${weatherLabel(w.code)}${w.pop != null ? ' · '+w.pop+'% precip' : ''} · ${key}</div>
-        `;
-        i.el.outerHTML = html;
-      });
-    } catch (e) {
-      items.forEach(i => {
-        i.el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">Live forecast unavailable</div>';
-      });
-    }
-  }
+  keys.forEach((key, idx) => {
+    const map = results[idx];
+    buckets[key].forEach(item => {
+      const w = map[item.date];
+      if (!w) {
+        item.el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">Weather unavailable</div>';
+        return;
+      }
+      renderWxCell(item.el, w, key);
+    });
+  });
 }
 
 render();
