@@ -856,7 +856,6 @@ function stayBlock(stay) {
           ${(s.checkin || s.checkout) ? `<div class="checktimes">${[s.checkin, s.checkout].filter(Boolean).join(' · ')}</div>` : ''}
           ${s.mapsQ ? `<div class="links">
             <a class="btn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.mapsQ)}" target="_blank" rel="noopener">📍 Map</a>
-            <a class="btn" href="https://www.airbnb.com/s/${encodeURIComponent(s.mapsQ)}/homes" target="_blank" rel="noopener">🏠 Airbnb</a>
           </div>` : ''}
         </div>
       `).join('')}
