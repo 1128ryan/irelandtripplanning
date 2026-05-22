@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="theme-color" content="#0f4d2a" />
+<title>Éire 2026 — A Wedding Adventure</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --emerald-deep: #0d3b22;
+    --emerald: #1f5a3a;
+    --emerald-soft: #2d7a52;
+    --moss: #4a7c59;
+    --gold: #c9a227;
+    --gold-soft: #e0bf52;
+    --cream: #faf5e6;
+    --parchment: #f4ecd3;
+    --ink: #1a2e1f;
+    --ink-soft: #3d4f3f;
+    --stone: #d9d0b4;
+    --rust: #a64b2a;
+    --sky: #6fa8c9;
+    --shadow: 0 6px 20px rgba(13, 59, 34, 0.12);
+    --shadow-lg: 0 14px 38px rgba(13, 59, 34, 0.18);
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #e9ddb0 0%, transparent 60%),
+      radial-gradient(900px 500px at 110% 20%, #c9d9b8 0%, transparent 55%),
+      linear-gradient(180deg, var(--cream) 0%, #efe6c8 100%);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 22px 16px 80px; }
+
+  /* Celtic top band */
+  .band {
+    height: 14px;
+    background:
+      repeating-linear-gradient(90deg,
+        var(--emerald-deep) 0 22px,
+        var(--gold) 22px 26px,
+        var(--emerald-deep) 26px 48px,
+        var(--gold-soft) 48px 52px);
+    border-bottom: 2px solid var(--emerald-deep);
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 28px 12px 12px;
+    position: relative;
+  }
+  .hero .eyebrow {
+    font-family: 'Caveat', cursive;
+    color: var(--emerald);
+    font-size: 22px;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    color: var(--emerald-deep);
+    font-size: clamp(38px, 9vw, 56px);
+    line-height: 1.02;
+    margin: 0 0 8px;
+    letter-spacing: 0.5px;
+  }
+  .hero h1 .accent { color: var(--gold); }
+  .hero .dates {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    color: var(--ink-soft);
+    letter-spacing: 0.6px;
+  }
+  .hero .knot {
+    display: inline-block;
+    color: var(--gold);
+    font-size: 22px;
+    margin: 6px 0 2px;
+  }
+
+  /* Crew chips */
+  .crew {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 14px 0 4px;
+  }
+  .person {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px 6px 6px;
+    background: white;
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+    border: 1px solid rgba(13,59,34,0.08);
+  }
+  .avatar {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+  }
+  .av-M { background: #2d7a52; }
+  .av-W { background: #2e5a8a; }
+  .av-R { background: #c9712a; }
+  .av-C { background: #6f3a8a; }
+  .av-A { background: #b53a6a; }
+  .av-S { background: #c9a227; color: #1a2e1f; }
+
+  /* Section heading */
+  .section-h {
+    margin: 28px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-h .line {
+    flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--moss), transparent);
+  }
+  .section-h h2 {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--emerald-deep);
+    font-size: 22px;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+  .section-h .glyph { color: var(--gold); }
+
+  /* Day card */
+  .day {
+    background: white;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin: 14px 0;
+    border: 1px solid rgba(13,59,34,0.06);
+    position: relative;
+  }
+  .day.today {
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--gold);
+  }
+  .day.past { opacity: 0.78; }
+
+  .day-head {
+    padding: 16px 18px 12px;
+    background:
+      linear-gradient(180deg, rgba(31,90,58,0.06), rgba(31,90,58,0));
+    border-bottom: 1px dashed rgba(13,59,34,0.12);
+  }
+  .day.today .day-head {
+    background:
+      linear-gradient(180deg, rgba(201,162,39,0.10), rgba(201,162,39,0.02));
+  }
+  .day-head-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .day-no {
+    font-family: 'Caveat', cursive;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 0.4px;
+  }
+  .day-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--emerald-deep);
+    line-height: 1.05;
+  }
+  .day-loc {
+    margin-top: 2px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+  .today-pill {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--emerald-deep);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    margin-bottom: 6px;
+  }
+
+  /* Meta strip (sunrise, weather) */
+  .meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--parchment);
+    border-bottom: 1px solid rgba(13,59,34,0.08);
+  }
+  .meta > div {
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .meta .label {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 10px;
+    color: var(--emerald);
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .meta .sun { border-right: 1px solid rgba(13,59,34,0.08); }
+  .meta .val { font-weight: 600; color: var(--ink); white-space: pre-line; }
+  .wx-row {
+    display: flex; align-items: center; gap: 8px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .wx-icon { font-size: 22px; line-height: 1; }
+  .wx-temp { font-family: 'Cormorant Garamond', serif; font-size: 20px; }
+  .wx-sub { font-size: 11px; color: var(--ink-soft); font-weight: 500; }
+  .wx-loading { color: var(--ink-soft); font-style: italic; font-weight: 500; font-size: 12px; }
+
+  /* Stay */
+  .stay {
+    padding: 12px 16px;
+    background: linear-gradient(180deg, #fbf6e3, #faf2d6);
+    border-bottom: 1px solid rgba(13,59,34,0.06);
+  }
+  .stay .lbl {
+    font-size: 10px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .stay .item { margin: 6px 0; font-size: 13.5px; }
+  .stay .item-name { font-weight: 700; color: var(--emerald-deep); }
+  .stay .who { font-size: 12px; color: var(--ink-soft); }
+  .stay .addr { font-size: 12px; color: var(--ink-soft); margin-top: 1px; }
+  .stay .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .stay a.btn {
+    font-size: 11.5px;
+    background: white;
+    color: var(--emerald-deep);
+    padding: 5px 10px;
+    border-radius: 999px;
+    text-decoration: none;
+    border: 1px solid rgba(13,59,34,0.18);
+    font-weight: 600;
+  }
+  .stay a.btn:hover { background: var(--cream); }
+  .stay .checktimes { font-size: 11px; color: var(--ink-soft); margin-top: 3px; }
+  .stay .laundry {
+    display: inline-block;
+    background: var(--moss);
+    color: white;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.6px;
+    margin-left: 4px;
+    vertical-align: 1px;
+  }
+
+  /* Timeline */
+  .timeline {
+    padding: 8px 0 4px;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 10px;
+    padding: 10px 16px 10px 12px;
+    border-bottom: 1px dashed rgba(13,59,34,0.06);
+  }
+  .row:last-child { border-bottom: none; }
+  .time {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    color: var(--emerald);
+    font-size: 15px;
+    padding-top: 1px;
+    text-align: right;
+    border-right: 2px solid var(--gold);
+    padding-right: 8px;
+  }
+  .activity { font-size: 14px; color: var(--ink); white-space: pre-line; }
+  .activity .meta-line {
+    color: var(--ink-soft);
+    font-size: 12.5px;
+  }
+  .who-chips {
+    display: inline-flex;
+    gap: 3px;
+    margin-right: 8px;
+    vertical-align: -2px;
+  }
+  .who-chips .avatar {
+    width: 18px; height: 18px;
+    font-size: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .price {
+    display: inline-block;
+    background: rgba(201,162,39,0.18);
+    color: #7a6014;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 6px;
+    margin-right: 5px;
+  }
+  .tag-got {
+    display: inline-block;
+    background: rgba(46, 90, 138, 0.12);
+    color: #2e5a8a;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 6px;
+    margin-left: 4px;
+    letter-spacing: 0.4px;
+  }
+
+  /* Past accordion */
+  details.past-wrap {
+    margin-top: 24px;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(13,59,34,0.12);
+    border-radius: 14px;
+    padding: 10px 14px;
+  }
+  details.past-wrap > summary {
+    list-style: none;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    color: var(--emerald-deep);
+    font-size: 18px;
+    padding: 4px 0;
+  }
+  details.past-wrap > summary::-webkit-details-marker { display: none; }
+  details.past-wrap > summary:after {
+    content: '▾';
+    float: right;
+    color: var(--gold);
+    transition: transform 0.2s;
+  }
+  details.past-wrap[open] > summary:after { transform: rotate(180deg); }
+
+  /* Day collapse for past */
+  details.day-coll {
+    background: white;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin: 10px 0;
+    border: 1px solid rgba(13,59,34,0.08);
+  }
+  details.day-coll > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 12px 16px;
+    background: linear-gradient(180deg, rgba(31,90,58,0.04), rgba(31,90,58,0));
+  }
+  details.day-coll > summary::-webkit-details-marker { display: none; }
+  details.day-coll > summary:after {
+    content: '▾';
+    color: var(--gold);
+    float: right;
+    transition: transform 0.2s;
+  }
+  details.day-coll[open] > summary:after { transform: rotate(180deg); }
+
+  /* Foot */
+  footer {
+    text-align: center;
+    margin-top: 32px;
+    padding: 16px;
+    color: var(--ink-soft);
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+  }
+  footer .knot { color: var(--gold); font-size: 24px; }
+
+  /* Legend table */
+  .legend {
+    background: white;
+    border-radius: 14px;
+    padding: 14px 16px;
+    box-shadow: var(--shadow);
+    margin: 12px 0 4px;
+  }
+  .legend h3 {
+    font-family: 'Cormorant Garamond', serif;
+    margin: 0 0 8px;
+    color: var(--emerald-deep);
+    font-size: 17px;
+  }
+  .legend p { font-size: 12.5px; color: var(--ink-soft); margin: 4px 0 0; }
+  .legend-codes { font-size: 12.5px; color: var(--ink-soft); margin-top: 8px; }
+  .legend-codes code {
+    background: var(--parchment);
+    padding: 1px 5px;
+    border-radius: 4px;
+    color: var(--ink);
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 11.5px;
+  }
+
+  /* Decorative */
+  .shamrock { color: var(--emerald-soft); }
+  hr.divider {
+    border: none;
+    border-top: 1px dashed rgba(13,59,34,0.2);
+    margin: 18px 8px;
+  }
+
+  @media (min-width: 720px) {
+    .meta { grid-template-columns: 1fr 1fr 1fr; }
+    .meta .sun { border-right: 1px solid rgba(13,59,34,0.08); }
+    .row { grid-template-columns: 80px 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="band"></div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">Fáilte go hÉirinn</div>
+    <h1>Ireland <span class="accent">2026</span></h1>
+    <div class="knot">⧗ ☘ ⧗</div>
+    <div class="dates">22 May — 1 June · A Wedding Adventure</div>
+    <div class="crew" id="crew"></div>
+  </div>
+
+  <div class="legend">
+    <h3>The Crew</h3>
+    <p>Tap a day to expand the past. Today's plan sits up top; remaining days follow in order.</p>
+    <div class="legend-codes">
+      Group codes you'll see in the schedule: <code>MW</code> Michelle + Will · <code>CR</code> Cat + Ryan · <code>MARCS</code> Michelle, Anisha, Ryan, Cat, Shriya · <code>MCAS</code> Michelle, Cat, Anisha, Shriya · <code>WR</code> Will + Ryan · <code>MWS</code> Michelle, Will, Shriya · <code>SA</code> Shriya + Anisha · <code>MC</code> Michelle + Cat · <code>CWARMS</code> everyone
+    </div>
+  </div>
+
+  <div id="today-section"></div>
+  <div id="upcoming-section"></div>
+  <div id="past-section"></div>
+
+  <footer>
+    <div class="knot">☘ ⧗ ☘</div>
+    May the road rise up to meet you.
+  </footer>
+
+</div>
+
+<script>
+/* ---------- Data ---------- */
+
+const PEOPLE = {
+  M: { name: 'Michelle' },
+  W: { name: 'Will' },
+  R: { name: 'Ryan' },
+  C: { name: 'Cat' },
+  A: { name: 'Anisha' },
+  S: { name: 'Shriya' }
+};
+const ORDER = ['M','W','R','C','A','S'];
+
+// Coords used for Open-Meteo forecasts. Pick a representative point per day.
+const COORDS = {
+  Dublin:   { lat: 53.3498, lon: -6.2603, tz: 'Europe/Dublin' },
+  Belfast:  { lat: 54.5973, lon: -5.9301, tz: 'Europe/London' },
+  Glenariff:{ lat: 55.0290, lon: -6.0140, tz: 'Europe/London' },
+  Bushmills:{ lat: 55.2076, lon: -6.5189, tz: 'Europe/London' },
+  Derry:    { lat: 54.9966, lon: -7.3086, tz: 'Europe/London' }
+};
+
+// Itinerary, faithful to the spreadsheet — with Shriya assumed wherever Anisha appears.
+const DAYS = [
+  {
+    date: '2026-05-22',
+    n: 1,
+    label: 'Departure',
+    location: 'LAX → Dublin',
+    sunsr: '5:12 am / 9:32 pm  (Dublin)',
+    historical: 'Dublin: 64°/52° AM showers',
+    wxKey: null,                 // travel day, no on-trip forecast
+    stay: [
+      { who: 'M / W', name: 'In-flight', sub: 'Lufthansa LH453 · departs 5:30 PM LAX' }
+    ],
+    activities: [
+      { time: '5:30 PM', text: 'MW Depart LAX (LUFTHANSA LH453)' }
+    ]
+  },
+  {
+    date: '2026-05-23',
+    n: 2,
+    label: 'Land in Dublin',
+    location: 'Travel · Dublin',
+    sunsr: '5:12 am / 9:32 pm',
+    historical: 'Dublin: 64°/52° AM showers',
+    wxKey: 'Dublin',
+    stay: [
+      { who: 'M / W', name: 'Dublin Cottage', laundry: true, sub: 'M/W stay' },
+      { who: 'C / R', name: 'Queens Quarter Airbnb (Ryan)', laundry: true,
+        address: '64A Melrose St, Belfast BT9 7DQ, UK',
+        mapsQ: '64A Melrose St, Belfast BT9 7DQ, UK',
+        checkin: 'Check in: after 3 PM' }
+    ],
+    activities: [
+      { time: '10:35 AM', text: 'CR land in Dublin' },
+      { time: '11:30 AM', text: 'CR Hertz car rental pickup at Dublin Airport (L5552159618)' },
+      { time: '4:55 PM',  text: 'MW land in Dublin (Lufthansa LH453)' },
+      { time: '7:00 PM',  text: 'MW Tesco run' },
+      { time: '8:00 PM',  text: 'MW arrange welcome bags' },
+      { time: '8:10 PM',  text: 'AS depart LAX (AA8109)' }
+    ]
+  },
+  {
+    date: '2026-05-24',
+    n: 3,
+    label: 'To Belfast',
+    location: 'Dublin → Belfast',
+    sunsr: 'Dublin: 5:10 am / 9:33 pm\nBelfast: 5:04 am / 9:37 pm',
+    historical: 'Dublin: 64°/51° partly cloudy · Belfast: 64°/52° partly cloudy',
+    wxKey: 'Belfast',
+    stay: [
+      { who: 'M / W', name: 'The Fitzwilliam', sub: 'Dublin' },
+      { who: 'C / A / R / S', name: 'Queens Quarter Airbnb (Ryan)', laundry: true,
+        address: '64A Melrose St, Belfast BT9 7DQ, UK',
+        mapsQ: '64A Melrose St, Belfast BT9 7DQ, UK',
+        checkout: 'Check out: before 11 AM (next morn.)' }
+    ],
+    activities: [
+      { time: '7:30 AM', text: 'S lands in Dublin' },
+      { time: '10:50 AM', text: 'MWS train to Belfast' },
+      { time: '1:00 PM', text: 'MWS arrive in Belfast' },
+      { time: '2:30 PM', text: 'A lands in Dublin (AA8109)' },
+      { time: '3:00 PM', text: 'MWCRAS mural tour (pickup at Leonardo Hotel on Great Victoria St.)' },
+      { time: '5:00 PM', text: 'A train to Belfast' },
+      { time: '7:00 PM', text: 'AS arrive in Belfast' },
+      { time: '7:00 PM', text: 'W birthday dinner (location TBD)', tentative: true }
+    ]
+  },
+  {
+    date: '2026-05-25',
+    n: 4,
+    label: 'Cushendall',
+    location: 'Cushendall',
+    sunsr: 'Belfast: 5:02 am / 9:39 pm\nGlenariff: 5:00 am / 9:42 pm',
+    historical: 'Belfast: 64°/51° showers · Gobbins: 61°/51° showers',
+    wxKey: 'Glenariff',
+    stay: [
+      { who: 'M / A / R / C / S', name: 'Airbnb Townhouse (Ryan)', laundry: true,
+        sub: 'Home in Glenariff',
+        address: '5 Main St, Glenariffe, Ballymena BT44 0QR, UK',
+        mapsQ: '5 Main St, Glenariffe, Ballymena BT44 0QR, UK',
+        checkin: 'Check in: after 2 PM', checkout: 'Check out: before 11 AM (next morn.)' }
+    ],
+    activities: [
+      { time: '9:00 AM',  text: 'A @ Cab Tours Belfast (1.5 hr tour)' },
+      { time: '10:30 AM', text: "Michelle's makeup trial — 34 University Street BT7 1FZ" },
+      { time: '10:30 AM', text: 'RACS meet at Hertz Central Railway Station to add Anisha to driver list', sub: '30 Ravenhill Rd, Belfast BT6 8EA, UK' },
+      { time: '11:00 AM', text: 'Breakfast: The Pocket' },
+      { time: '12:00 PM', text: 'Carrickfergus Castle (19 min drive)', price: '£6 / ticket · Free parking' },
+      { time: '12:45 PM', text: 'Blackhead Lighthouse (7 min drive)', sub: 'Park at Whitehead · 4 km path (1–1.5 hr out & back)' },
+      { time: '1:30 PM',  text: 'Gobbins Cliff Walk (7 min drive)', price: '£23.50 / pp · Free parking · 3 km path' },
+      { time: '4:00 PM',  text: 'Will golfing with Mike, Joey, Conner' },
+      { time: '4:30 PM',  text: 'Black Arch drive-through (20 min drive)' },
+      { time: '5:00 PM',  text: 'Cushendun Caves — GOT location (34 min drive)', got: true, sub: 'Park: Cushendun Car Park (free) · 6 min walk to caves' },
+      { time: '6:00 PM',  text: 'Cushendall Town (9 min drive)' },
+      { time: '7:00 PM',  text: "Dinner: Harry's, Cushendall" },
+      { time: '10:00 PM', text: 'Will heads back to Dublin', tentative: true }
+    ]
+  },
+  {
+    date: '2026-05-26',
+    n: 5,
+    label: 'Causeway Coast',
+    location: 'Coastal Causeway',
+    sunsr: 'Glenariff: 4:59 am / 9:44 pm\nBushmills: 5:00 am / 9:46 pm',
+    historical: 'Rathlin Island: 57°/28° AM showers',
+    wxKey: 'Bushmills',
+    stay: [
+      { who: 'M / A / R / C / S', name: 'Airbnb Cottage (Ryan)', laundry: true,
+        sub: 'Cottage in Bushmills',
+        address: '16 Bush Gardens, Bushmills BT57 8AE, UK',
+        mapsQ: '16 Bush Gardens, Bushmills BT57 8AE, UK',
+        checkin: 'Check in: after 1 PM', checkout: 'Check out: before 10 AM (next morn.)' }
+    ],
+    activities: [
+      { time: '6:00 AM',  text: 'W flies to Paris' },
+      { time: '8:00 AM',  text: 'Breakfast: North Coffee Shop' },
+      { time: '9:00 AM',  text: 'Torr Head Scenic Route (no stopping, 16 min drive)' },
+      { time: '9:45 AM',  text: 'Cliffs at Fair Head (22 min drive)', price: '£3 honesty box' },
+      { time: '10:30 AM', text: 'Carrick-a-Rede rope bridge (20 min drive)', price: '£16', sub: 'Closes at 4:30 PM' },
+      { time: '12:00 PM', text: 'Ballycastle', sub: 'Park: Ann Street Car Park · Grab-and-go lunch: Ursa Minor · 13 min walk to ferry point' },
+      { time: '1:00 PM',  text: 'MARCS ferry to Rathlin Island' },
+      { time: '2:00 PM',  text: 'Rathlin Island — PUFFINS!' },
+      { time: '4:00 PM',  text: 'MARCS ferry back to Ballycastle' },
+      { time: '5:00 PM',  text: 'Kinbane Castle (8 min drive)' },
+      { time: '6:00 PM',  text: 'The Dark Hedges (15 min drive)', got: true, sub: 'Park at the Hedges Hotel (~£5)' },
+      { time: '7:00 PM',  text: 'Whitepark Bay Beach (15 min drive)', sub: 'Free parking' },
+      { time: '8:00 PM',  text: 'Dunseverick Castle + Falls (6 min drive)', sub: 'Free parking' },
+      { time: '9:00 PM',  text: 'Dinner in Bushmills' }
+    ]
+  },
+  {
+    date: '2026-05-27',
+    n: 6,
+    label: 'Causeway Coast',
+    location: 'Coastal Causeway · Derry',
+    sunsr: 'Bushmills: 4:59 am / 9:48 pm\nDerry: 5:03 am / 9:50 pm',
+    historical: 'Bushmills: 61°/46°',
+    wxKey: 'Bushmills',
+    stay: [
+      { who: 'M / A / R / C / S', name: 'Arkle House, Derry (Anisha)',
+        address: '2 Coshquin Rd, Londonderry BT48 0ND, UK',
+        mapsQ: '2 Coshquin Rd, Londonderry BT48 0ND, UK',
+        checkin: 'Check in: 4–8 PM', checkout: 'Check out: before 12 PM (next morn.)' }
+    ],
+    activities: [
+      { time: '8:00 AM',  text: 'Breakfast in Bushmills — Bilberry Mill Café', sub: 'Opens 8:30 AM' },
+      { time: "9:30 AM",  text: "Giant's Causeway (4 min drive)", price: '£16 · parking included' },
+      { time: '11:30 AM', text: "Old Bushmill's Distillery", price: '£20 · free parking' },
+      { time: '12:45 PM', text: 'Dunluce Castle (7 min drive)', price: '£6 guided tour' },
+      { time: '1:30 PM',  text: 'Mussenden Temple (30 min drive)', price: '£10 / car parking + ticket' },
+      { time: '2:30 PM',  text: 'Lunch: Pyke n Pommes (45 min drive) · coffee: Jerusalem Cafe' },
+      { time: '3:00 PM',  text: 'Tower Museum', price: '£6' },
+      { time: '4:00 PM',  text: 'McCrossan Derry Tours', price: '£6' },
+      { time: '5:00 PM',  text: 'Check in to Arkle House' },
+      { time: '6:00 PM',  text: 'Craft Village · Derry Girls Mural' },
+      { time: '8:00 PM',  text: 'Dinner: Cedar — A Taste of Lebanon' },
+      { time: '9:00 PM',  text: "Peadar O'Donnell's" }
+    ]
+  },
+  {
+    date: '2026-05-28',
+    n: 7,
+    label: 'Back to Dublin',
+    location: 'Derry → Dublin',
+    sunsr: 'Derry: 5:02 am / 9:51 pm\nDublin: 5:07 am / 9:37 pm',
+    historical: '',
+    wxKey: 'Dublin',
+    stay: [
+      { who: 'R / W', name: 'Dublin Cottage' },
+      { who: 'M / C / A / S', name: 'Dunboyne Castle (Cat)', laundry: true,
+        mapsQ: 'Dunboyne Castle Hotel & Spa, Dunboyne, County Meath' },
+      { who: 'R', name: 'A park bench', sub: '(if he gets in a fight with Will)' }
+    ],
+    activities: [
+      { time: '7:00 AM',  text: 'MARCS Irish breakfast at Arkle House' },
+      { time: '7:30 AM',  text: 'MARCS drive back to Dublin' },
+      { time: '9:00 AM',  text: 'W arrives back in Dublin' },
+      { time: '11:00 AM', text: 'MACS arrive at Dunboyne Castle' },
+      { time: '11:30 AM', text: 'R Hertz car rental drop-off at Dublin Airport' },
+      { time: '12:00 PM', text: 'MCAS afternoon tea' },
+      { time: '12:00 PM', text: 'R afternoon Guinness' },
+      { time: '12:30 PM', text: 'WR deliver decor items (2 open fabric boxes) to Luttrellstown Castle' },
+      { time: '2:00 PM',  text: 'MCAS early check-in to room' },
+      { time: '3:00 PM',  text: 'MCAS check in to spa' },
+      { time: '3:30 PM',  text: 'MCAS spa treatments' },
+      { time: '4:30 PM',  text: 'MCAS thermal suite' },
+      { time: '8:00 PM',  text: 'MCAS dinner at The Ivy Restaurant' },
+      { time: '9:00 PM',  text: 'WR tear up the town' }
+    ]
+  },
+  {
+    date: '2026-05-29',
+    n: 8,
+    label: 'Dublin',
+    location: 'Dublin',
+    sunsr: '5:06 am / 9:39 pm',
+    historical: '',
+    wxKey: 'Dublin',
+    stay: [
+      { who: 'all', name: 'Castleknock Hotel',
+        mapsQ: 'Castleknock Hotel, Dublin' }
+    ],
+    activities: [
+      { time: '7:00 AM',  text: 'MCAS breakfast at Dunboyne' },
+      { time: '8:00 AM',  text: 'WR prepare to move all luggage from Dublin Airbnb to Castleknock Hotel', sub: '3 check-in bags · 2 carry-ons · 1 wedding dress · 1 tux · 1 big gay rainbow bag' },
+      { time: '9:00 AM',  text: 'Meet at Castleknock Hotel for check-in and bag drop' },
+      { time: '10:50 AM', text: 'Will golfing at Howth Golf Club' },
+      { time: '11:00 AM', text: 'A — Howth Market', sub: 'Bog of Frogs Walk · 7.5 miles / 3 hrs' },
+      { time: '4:00 PM',  text: 'Check in to Castleknock Hotel' },
+      { time: '5:15 PM',  text: 'MW at Eva Liu birthday dinner' },
+      { time: '9:00 PM',  text: 'CWARMS — go out!' },
+      { time: '9:00 PM',  text: 'Xian Street Food — SPOICE BAG ON A FROIDAY NOIGHT' }
+    ]
+  },
+  {
+    date: '2026-05-30',
+    n: 9,
+    label: 'Rehearsal & Welcome',
+    location: 'Dublin',
+    sunsr: '5:05 am / 9:40 pm',
+    historical: '',
+    wxKey: 'Dublin',
+    stay: [
+      { who: 'all', name: 'Castleknock Hotel',
+        mapsQ: 'Castleknock Hotel, Dublin' }
+    ],
+    activities: [
+      { time: '8:00 AM',  text: 'Breakfast: Full Irish @ hotel' },
+      { time: '10:00 AM', text: 'WR tux try-on' },
+      { time: '4:30 PM',  text: 'Wedding party meets at Castleknock Hotel to rehearse ceremony' },
+      { time: '6:15 PM',  text: "Shuttle transportation from Castleknock Hotel to JR Mahon's" },
+      { time: '7:00 PM',  text: "Welcome Party @ JR Mahon's", sub: '7:00 – 10:00 PM' },
+      { time: '10:00 PM', text: 'Return shuttle transportation to Castleknock Hotel' }
+    ]
+  },
+  {
+    date: '2026-05-31',
+    n: 10,
+    label: 'WEDDING DAY',
+    location: 'Luttrellstown Castle',
+    sunsr: '5:04 am / 9:41 pm',
+    historical: '',
+    wxKey: 'Dublin',
+    stay: [
+      { who: 'all', name: 'Luttrellstown Castle',
+        mapsQ: 'Luttrellstown Castle Resort, Castleknock, Dublin' }
+    ],
+    activities: [
+      { time: '7:30 AM',  text: 'SA head to salon at LC' },
+      { time: '8:45 AM',  text: 'MC head to salon at LC' },
+      { time: '9:00 AM',  text: 'Breakfast @ salon' },
+      { time: '12:30 PM', text: 'Lunch at Luttrellstown Castle', sub: '12:30 – 3:00 PM' },
+      { time: '3:00 PM',  text: 'Check in to Luttrellstown Castle' },
+      { time: '5:00 PM',  text: 'Ceremony & Reception 💐', highlight: true }
+    ]
+  },
+  {
+    date: '2026-06-01',
+    n: 11,
+    label: 'Farewell',
+    location: 'Dublin → Travel',
+    sunsr: '5:03 am / 9:42 pm',
+    historical: '',
+    wxKey: 'Dublin',
+    stay: [
+      { who: 'M', name: 'Train to Killarney', sub: 'Departs 5:05 PM' }
+    ],
+    activities: [
+      { time: '8:00 AM',  text: 'Breakfast service at Luttrellstown Castle', sub: '8:00 – 10:00 AM' },
+      { time: '11:00 AM', text: 'Checkout of Luttrellstown Castle' },
+      { time: '11:30 AM', text: 'Goodbye brunch', sub: '11:30 AM – 1:30 PM' },
+      { time: '4:45 PM',  text: 'AS fly back to LA' },
+      { time: '5:05 PM',  text: 'M train to Killarney' }
+    ]
+  }
+];
+
+/* ---------- Render helpers ---------- */
+
+function fmtDate(iso) {
+  // Avoid TZ slip from new Date('YYYY-MM-DD')
+  const [y,m,d] = iso.split('-').map(Number);
+  const dt = new Date(y, m-1, d);
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${days[dt.getDay()]}, ${months[dt.getMonth()]} ${dt.getDate()}`;
+}
+
+function todayKey() {
+  // The trip is in May/June 2026. Use the date the user sees on their device,
+  // but anchor to the trip year by comparing iso strings directly.
+  const t = new Date();
+  return t.toISOString().slice(0,10);
+}
+
+function avatarHtml(letter) {
+  return `<span class="avatar av-${letter}" title="${PEOPLE[letter].name}">${letter}</span>`;
+}
+
+function crewBar() {
+  const el = document.getElementById('crew');
+  el.innerHTML = ORDER.map(k =>
+    `<span class="person">${avatarHtml(k)} ${PEOPLE[k].name}</span>`
+  ).join('');
+}
+
+function parseInitials(text) {
+  // Find a leading run of capital letters (≥2) before a space/dash that maps to known people.
+  const m = text.match(/^([MWRCAS]{2,})\b/);
+  if (!m) return { who: [], rest: text };
+  const letters = m[1].split('');
+  if (letters.every(l => PEOPLE[l])) {
+    let who = [...new Set(letters)];
+    // Auto-include Shriya wherever Anisha is present (per user instruction).
+    if (who.includes('A') && !who.includes('S')) who.push('S');
+    return { who, rest: text.slice(m[1].length).trimStart() };
+  }
+  return { who: [], rest: text };
+}
+
+function rewriteWho(text) {
+  // Replace certain known phrases for clarity (Shriya included where Anisha is).
+  // e.g., "A — Howth Market" stays as-is but the chip computation will add S.
+  return text;
+}
+
+function activityRow(a) {
+  const { who, rest } = parseInitials(rewriteWho(a.text));
+  const chips = who.length
+    ? `<span class="who-chips">${who.map(avatarHtml).join('')}</span>`
+    : '';
+  const priceTag = a.price ? `<span class="price">${a.price}</span>` : '';
+  const gotTag = a.got ? `<span class="tag-got">GOT</span>` : '';
+  const tentative = a.tentative ? `<span class="meta-line">(tentative) </span>` : '';
+  const sub = a.sub ? `<div class="meta-line">${a.sub}</div>` : '';
+  const main = a.highlight
+    ? `<strong style="color:var(--rust); font-family:'Cormorant Garamond',serif; font-size:18px;">${rest}</strong>`
+    : rest;
+  return `
+    <div class="row">
+      <div class="time">${a.time}</div>
+      <div class="activity">${chips}${tentative}${priceTag}${main}${gotTag}${sub}</div>
+    </div>
+  `;
+}
+
+function stayBlock(stay) {
+  if (!stay || !stay.length) return '';
+  return `
+    <div class="stay">
+      <div class="lbl">Where you're laying your head</div>
+      ${stay.map(s => `
+        <div class="item">
+          <span class="who">${s.who}</span> · <span class="item-name">${s.name}</span>${s.laundry ? '<span class="laundry">LAUNDRY</span>' : ''}
+          ${s.sub ? `<div class="meta-line" style="font-size:12px; color:var(--ink-soft);">${s.sub}</div>` : ''}
+          ${s.address ? `<div class="addr">📍 ${s.address}</div>` : ''}
+          ${(s.checkin || s.checkout) ? `<div class="checktimes">${[s.checkin, s.checkout].filter(Boolean).join(' · ')}</div>` : ''}
+          ${s.mapsQ ? `<div class="links">
+            <a class="btn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.mapsQ)}" target="_blank" rel="noopener">📍 Map</a>
+            <a class="btn" href="https://www.airbnb.com/s/${encodeURIComponent(s.mapsQ)}/homes" target="_blank" rel="noopener">🏠 Airbnb</a>
+          </div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function dayHeadHtml(d, isToday) {
+  return `
+    <div class="day-head">
+      ${isToday ? '<div class="today-pill">Today</div>' : ''}
+      <div class="day-head-top">
+        <div>
+          <div class="day-date">${fmtDate(d.date)}</div>
+          <div class="day-loc">${d.location}</div>
+        </div>
+        <div class="day-no">Day ${d.n} · ${d.label}</div>
+      </div>
+    </div>
+  `;
+}
+
+function metaHtml(d) {
+  return `
+    <div class="meta">
+      <div class="sun">
+        <div class="label">☀ Sun</div>
+        <div class="val">${d.sunsr || '—'}</div>
+      </div>
+      <div>
+        <div class="label">🌦 Forecast</div>
+        <div class="wx-loading" data-wxkey="${d.wxKey || ''}" data-date="${d.date}">Loading…</div>
+      </div>
+    </div>
+  `;
+}
+
+function bodyHtml(d) {
+  return `
+    ${metaHtml(d)}
+    ${stayBlock(d.stay)}
+    <div class="timeline">
+      ${d.activities.map(activityRow).join('')}
+    </div>
+  `;
+}
+
+function renderDayCard(d, isToday) {
+  return `
+    <article class="day ${isToday ? 'today' : ''}">
+      ${dayHeadHtml(d, isToday)}
+      ${bodyHtml(d)}
+    </article>
+  `;
+}
+
+function renderPastDay(d) {
+  return `
+    <details class="day-coll">
+      <summary>
+        <strong style="font-family:'Cormorant Garamond',serif; font-size:18px; color:var(--emerald-deep);">${fmtDate(d.date)}</strong>
+        <span style="color:var(--ink-soft); font-size:13px; margin-left:6px;">· ${d.location}</span>
+      </summary>
+      ${bodyHtml(d)}
+    </details>
+  `;
+}
+
+function render() {
+  crewBar();
+  const today = todayKey();
+  const todayDay = DAYS.find(d => d.date === today);
+  const upcoming = DAYS.filter(d => d.date > today);
+  const past = DAYS.filter(d => d.date < today);
+
+  const $today = document.getElementById('today-section');
+  const $up = document.getElementById('upcoming-section');
+  const $past = document.getElementById('past-section');
+
+  if (todayDay) {
+    $today.innerHTML = `
+      <div class="section-h"><span class="glyph">☘</span><h2>Today</h2><span class="line"></span></div>
+      ${renderDayCard(todayDay, true)}
+    `;
+  }
+
+  if (upcoming.length) {
+    $up.innerHTML = `
+      <div class="section-h"><span class="glyph">⧗</span><h2>The Road Ahead</h2><span class="line"></span></div>
+      ${upcoming.map(d => renderDayCard(d, false)).join('')}
+    `;
+  } else if (!todayDay) {
+    // trip hasn't started? Show all days as upcoming
+    if (DAYS[0].date > today) {
+      $up.innerHTML = `
+        <div class="section-h"><span class="glyph">⧗</span><h2>The Road Ahead</h2><span class="line"></span></div>
+        ${DAYS.map(d => renderDayCard(d, false)).join('')}
+      `;
+    }
+  }
+
+  if (past.length) {
+    $past.innerHTML = `
+      <details class="past-wrap" ${past.length < 3 ? 'open' : ''}>
+        <summary>☘ Days Gone By · ${past.length} day${past.length>1?'s':''}</summary>
+        ${past.slice().reverse().map(renderPastDay).join('')}
+      </details>
+    `;
+  }
+
+  fetchWeather();
+}
+
+/* ---------- Weather (Open-Meteo, no key needed) ---------- */
+
+function weatherIcon(code) {
+  if (code === 0) return '☀️';
+  if ([1,2].includes(code)) return '🌤';
+  if (code === 3) return '☁️';
+  if ([45,48].includes(code)) return '🌫';
+  if ([51,53,55,56,57].includes(code)) return '🌦';
+  if ([61,63,65,66,67,80,81,82].includes(code)) return '🌧';
+  if ([71,73,75,77,85,86].includes(code)) return '🌨';
+  if ([95,96,99].includes(code)) return '⛈';
+  return '🌥';
+}
+
+function weatherLabel(code) {
+  if (code === 0) return 'Clear';
+  if (code === 1) return 'Mostly clear';
+  if (code === 2) return 'Partly cloudy';
+  if (code === 3) return 'Overcast';
+  if ([45,48].includes(code)) return 'Fog';
+  if ([51,53,55].includes(code)) return 'Drizzle';
+  if ([56,57].includes(code)) return 'Freezing drizzle';
+  if ([61,63,65].includes(code)) return 'Rain';
+  if ([66,67].includes(code)) return 'Freezing rain';
+  if ([71,73,75,77].includes(code)) return 'Snow';
+  if ([80,81,82].includes(code)) return 'Rain showers';
+  if ([85,86].includes(code)) return 'Snow showers';
+  if ([95,96,99].includes(code)) return 'Thunderstorms';
+  return '—';
+}
+
+async function fetchWeather() {
+  // Cluster dates by location to reduce calls.
+  const buckets = {};
+  document.querySelectorAll('.wx-loading[data-wxkey]').forEach(el => {
+    const k = el.dataset.wxkey;
+    const d = el.dataset.date;
+    if (!k) { el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">Travel day — no on-trip forecast</div>'; return; }
+    buckets[k] = buckets[k] || [];
+    buckets[k].push({ el, date: d });
+  });
+
+  const startDate = '2026-05-22';
+  const endDate   = '2026-06-01';
+
+  for (const [key, items] of Object.entries(buckets)) {
+    const c = COORDS[key];
+    if (!c) {
+      items.forEach(i => i.el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">No coordinates</div>');
+      continue;
+    }
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}` +
+      `&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_probability_max` +
+      `&temperature_unit=fahrenheit&forecast_days=16&start_date=${startDate}&end_date=${endDate}` +
+      `&timezone=${encodeURIComponent(c.tz)}`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error('http '+res.status);
+      const j = await res.json();
+      const daily = j.daily || {};
+      const map = {};
+      (daily.time || []).forEach((t, i) => {
+        map[t] = {
+          hi: Math.round(daily.temperature_2m_max[i]),
+          lo: Math.round(daily.temperature_2m_min[i]),
+          code: daily.weathercode[i],
+          pop: daily.precipitation_probability_max ? daily.precipitation_probability_max[i] : null
+        };
+      });
+      items.forEach(i => {
+        const w = map[i.date];
+        if (!w) {
+          i.el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">Outside forecast window</div>';
+          return;
+        }
+        const html = `
+          <div class="wx-row">
+            <span class="wx-icon">${weatherIcon(w.code)}</span>
+            <span class="wx-temp">${w.hi}° / ${w.lo}°</span>
+          </div>
+          <div class="wx-sub">${weatherLabel(w.code)}${w.pop != null ? ' · '+w.pop+'% precip' : ''} · ${key}</div>
+        `;
+        i.el.outerHTML = html;
+      });
+    } catch (e) {
+      items.forEach(i => {
+        i.el.outerHTML = '<div style="font-size:12px;color:var(--ink-soft);">Live forecast unavailable</div>';
+      });
+    }
+  }
+}
+
+render();
+</script>
+</body>
+</html>
