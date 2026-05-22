@@ -328,6 +328,14 @@
     font-size: 10px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.15);
   }
+  .who-chips-stay {
+    margin-right: 6px;
+    vertical-align: -4px;
+  }
+  .who-chips-stay .avatar {
+    width: 22px; height: 22px;
+    font-size: 11px;
+  }
   .price {
     display: inline-block;
     background: rgba(201,162,39,0.18);
@@ -554,7 +562,6 @@ const DAYS = [
         checkout: 'Check out: before 11 AM (next morn.)' }
     ],
     activities: [
-      { time: '7:30 AM', text: 'S lands in Dublin' },
       { time: '10:50 AM', text: 'MWS train to Belfast' },
       { time: '1:00 PM', text: 'MWS arrive in Belfast' },
       { time: '2:30 PM', text: 'A lands in Dublin (AA8109)' },
@@ -843,6 +850,19 @@ function activityRow(a) {
   `;
 }
 
+function renderWho(whoStr) {
+  if (!whoStr) return '';
+  const trimmed = whoStr.trim();
+  let letters;
+  if (trimmed.toLowerCase() === 'all') {
+    letters = ORDER.slice();
+  } else {
+    letters = trimmed.split(/[\s/,]+/).filter(x => x.length === 1 && PEOPLE[x]);
+  }
+  if (!letters.length) return whoStr;
+  return `<span class="who-chips who-chips-stay">${letters.map(avatarHtml).join('')}</span>`;
+}
+
 function stayBlock(stay) {
   if (!stay || !stay.length) return '';
   return `
@@ -850,7 +870,7 @@ function stayBlock(stay) {
       <div class="lbl">Where you're laying your head</div>
       ${stay.map(s => `
         <div class="item">
-          <span class="who">${s.who}</span> · <span class="item-name">${s.name}</span>${s.laundry ? '<span class="laundry">LAUNDRY</span>' : ''}
+          ${renderWho(s.who)} <span class="item-name">${s.name}</span>${s.laundry ? '<span class="laundry">LAUNDRY</span>' : ''}
           ${s.sub ? `<div class="meta-line" style="font-size:12px; color:var(--ink-soft);">${s.sub}</div>` : ''}
           ${s.address ? `<div class="addr">📍 ${s.address}</div>` : ''}
           ${(s.checkin || s.checkout) ? `<div class="checktimes">${[s.checkin, s.checkout].filter(Boolean).join(' · ')}</div>` : ''}
