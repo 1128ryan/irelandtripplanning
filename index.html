@@ -128,6 +128,7 @@
   .av-C { background: #e84a8c; }
   .av-A { background: #7a3d9a; }
   .av-S { background: #c9a227; color: #1a2e1f; }
+  .av-K { background: #0f8a8e; }
 
   /* Heart-shaped avatars (Michelle, Will). The SVG fills the avatar box;
      the letter sits on top, centered visually inside the heart's body. */
@@ -684,9 +685,10 @@ const PEOPLE = {
   R: { name: 'Ryan' },
   C: { name: 'Cat' },
   A: { name: 'Anisha' },
-  S: { name: 'Shriya' }
+  S: { name: 'Shriya' },
+  K: { name: 'Kristee' }
 };
-const ORDER = ['M','W','R','C','A','S'];
+const ORDER = ['M','W','R','C','A','S','K'];
 
 // Coords used for Open-Meteo forecasts. Pick a representative point per day.
 const COORDS = {
@@ -1009,7 +1011,7 @@ function crewBar() {
 
 function parseInitials(text) {
   // Find a leading run of capital letters (≥1) before a word boundary that maps to known people.
-  const m = text.match(/^([MWRCAS]+)\b/);
+  const m = text.match(/^([MWRCASK]+)\b/);
   if (!m) return { who: [], rest: text };
   const letters = m[1].split('');
   if (letters.every(l => PEOPLE[l])) {
